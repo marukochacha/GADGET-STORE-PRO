@@ -948,36 +948,48 @@
 
 <script>
 /* ======================= DATA PRODUK GADGET ======================= */
-/* Catatan: gambar & video di bawah ini masih berupa placeholder demo.
-   Ganti url "gallery" dan "video" dengan foto/video asli produk kamu,
-   atau tambahkan produk baru lewat menu Admin > Tambah. */
+/* Catatan PENTING soal foto & video lokal:
+   Produk di bawah ini sekarang memakai nama FILE LOKAL (bukan link internet),
+   contoh: "ipad.jpg" dan "pad.mp4". Supaya muncul, taruh file-file berikut
+   PERSIS di folder yang SAMA dengan file index.html ini:
+     - ipad.jpg      + pad.mp4
+     - iphone 15.jpg + iphone.mp4
+     - case.jpg      + case.mp4
+     - macbook.jpg   + VID MACBOOK.mp4
+   Kalau kamu buka index.html langsung dari HP/laptop (double click), taruh
+   semua file gambar & video itu satu folder dengan index.html.
+   Kalau di-hosting/upload ke server, upload juga semua file itu di folder
+   yang sama dengan index.html.
+   Catatan: nama file yang ada spasi ("iphone 15.jpg", "VID MACBOOK.mp4")
+   ditulis di kode pakai %20 (kode untuk spasi), tapi file aslinya tetap
+   kamu simpan dengan nama asli (pakai spasi biasa), tidak perlu diganti. */
 const DEMO_VIDEO = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
 
 const products = [
-  {id:1,name:"Smartphone Nova X12",price:3499000,oldPrice:3999000,desc:"Smartphone layar AMOLED 120Hz, RAM 8GB, kamera triple 108MP untuk hasil foto tajam di segala kondisi.",rating:4.8,sold:412,stock:48,cat:"smartphone",badge:"Best Seller",
-   img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80",
-   gallery:["https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=80","https://images.unsplash.com/photo-1592286927505-1def25115481?w=800&q=80","https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=800&q=80"],
-   video:DEMO_VIDEO,
-   colors:[{name:"Space Gray",hex:"#3a3d40"},{name:"Midnight Blue",hex:"#1f2a44"},{name:"Silver",hex:"#c9cdd1"}],
+  {id:1,name:"iPad",price:7999000,oldPrice:8999000,desc:"Tablet layar lebar dengan performa kencang, cocok untuk kerja, belajar, gambar digital, dan hiburan.",rating:4.8,sold:412,stock:48,cat:"smartphone",badge:"Best Seller",
+   img:"ipad.jpg",
+   gallery:["ipad.jpg"],
+   video:"pad.mp4",
+   colors:[{name:"Space Gray",hex:"#3a3d40"},{name:"Silver",hex:"#c9cdd1"}],
    sizes:["128GB","256GB"]},
-  {id:2,name:"Earbuds SonicPod Pro",price:459000,oldPrice:null,desc:"Earbuds nirkabel dengan Active Noise Cancelling dan daya tahan baterai hingga 30 jam.",rating:4.6,sold:288,stock:120,cat:"audio",badge:"Baru",
-   img:"https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&q=80",
-   gallery:["https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&q=80","https://images.unsplash.com/photo-1590658165737-15a047b7c0a8?w=800&q=80","https://images.unsplash.com/photo-1590658006821-25da5f4e6e94?w=800&q=80"],
-   video:DEMO_VIDEO,
-   colors:[{name:"Putih",hex:"#f5f5f5"},{name:"Hitam",hex:"#1c1c1c"}],
+  {id:2,name:"iPhone 15",price:13999000,oldPrice:14999000,desc:"Smartphone flagship dengan kamera canggih, performa cepat, dan desain premium.",rating:4.9,sold:288,stock:120,cat:"smartphone",badge:"Baru",
+   img:"iphone%2015.jpg",
+   gallery:["iphone%2015.jpg"],
+   video:"iphone.mp4",
+   colors:[{name:"Hitam",hex:"#1c1c1c"},{name:"Putih",hex:"#f5f5f5"},{name:"Biru",hex:"#2e6cd9"}],
+   sizes:["128GB","256GB"]},
+  {id:3,name:"Case",price:99000,oldPrice:129000,desc:"Case pelindung pas di bodi, bahan kuat anti benturan, tetap tipis dan nyaman digenggam.",rating:4.7,sold:196,stock:65,cat:"aksesoris",badge:"Best Seller",
+   img:"case.jpg",
+   gallery:["case.jpg"],
+   video:"case.mp4",
+   colors:[{name:"Hitam",hex:"#1c1c1c"},{name:"Bening",hex:"#e9e9e9"}],
    sizes:["Standard"]},
-  {id:3,name:"Smartwatch PulseFit 5",price:899000,oldPrice:1099000,desc:"Jam pintar dengan monitor detak jantung, GPS built-in, dan tahan air hingga 50 meter.",rating:4.7,sold:196,stock:65,cat:"wearable",badge:"Best Seller",
-   img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80",
-   gallery:["https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80","https://images.unsplash.com/photo-1544117519-31a4b719223d?w=800&q=80","https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=800&q=80"],
-   video:DEMO_VIDEO,
-   colors:[{name:"Hitam",hex:"#1c1c1c"},{name:"Rose Gold",hex:"#caa38f"}],
-   sizes:["42mm","46mm"]},
-  {id:4,name:"Power Bank VoltMax 20000",price:249000,oldPrice:null,desc:"Power bank kapasitas besar dengan fast charging 22.5W, cukup untuk isi daya ponsel 4x lipat.",rating:4.5,sold:534,stock:200,cat:"aksesoris",badge:null,
-   img:"https://images.unsplash.com/photo-1609692814858-f7cd2f0afa4f?w=600&q=80",
-   gallery:["https://images.unsplash.com/photo-1609692814858-f7cd2f0afa4f?w=800&q=80","https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800&q=80"],
-   video:DEMO_VIDEO,
-   colors:[{name:"Hitam",hex:"#1c1c1c"},{name:"Putih",hex:"#f5f5f5"}],
-   sizes:["Standard"]},
+  {id:4,name:"MacBook",price:16999000,oldPrice:null,desc:"Laptop tipis dan ringan dengan performa kencang, baterai awet, cocok untuk kerja maupun kuliah.",rating:4.8,sold:150,stock:20,cat:"smartphone",badge:"Baru",
+   img:"macbook.jpg",
+   gallery:["macbook.jpg"],
+   video:"VID%20MACBOOK.mp4",
+   colors:[{name:"Silver",hex:"#c9cdd1"},{name:"Space Gray",hex:"#3a3d40"}],
+   sizes:["256GB","512GB"]},
   {id:5,name:"Laptop UltraBook Air 14",price:8999000,oldPrice:null,desc:"Laptop tipis dan ringan dengan prosesor hemat daya, cocok untuk kerja maupun kuliah.",rating:4.7,sold:87,stock:22,cat:"smartphone",badge:"Baru",
    img:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&q=80",
    gallery:["https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=80","https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80","https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=800&q=80"],
@@ -1016,12 +1028,19 @@ const ADMIN_CREDENTIALS = {username:"admin", password:"admin123"};
 let addImageObjectURL = null;
 let addVideoObjectURL = null;
 
+/* ======================= PESANAN GLOBAL (TOKO) =======================
+   PENTING: daftar pesanan ini SENGAJA dipisah dari appState dan TIDAK
+   pernah direset saat pembeli logout. Ini yang membuat pesanan yang baru
+   dibuat pembeli tetap muncul di dashboard Admin > Pesanan, karena satu-
+   satunya cara membuka dashboard admin di demo ini adalah lewat halaman
+   pilih peran (yang mengharuskan pembeli logout dulu). */
+let allOrders = []; // {id, owner, items, subtotal, shipping, total, address, payment, status, date, dateObj}
+
 /* ======================= STATE APLIKASI ======================= */
 let appState = {
   loggedIn:false,
   user:{email:"",username:"",password:"",phone:"",address:""},
   cart:[],       // {lineId, productId, name, price, img, color, size, qty, checked}
-  orders:[],     // {id, items, subtotal, shipping, total, address, payment, status, date, dateObj}
   currentProductId:null,
   selectedColor:null,
   selectedSize:null,
@@ -1084,6 +1103,7 @@ function loginBuyer(){
   document.getElementById('profilePhone').textContent = appState.user.phone;
 
   renderHome();
+  updateCartBadge();
   showToast(`Selamat datang kembali, ${appState.user.username}! ⚡`);
 }
 
@@ -1186,6 +1206,7 @@ function obFinish(){
   document.getElementById('profilePhone').textContent = appState.user.phone;
 
   renderHome();
+  updateCartBadge();
   showToast(`Selamat datang, ${appState.user.username}! ⚡`);
 }
 
@@ -1573,8 +1594,10 @@ function placeOrder(){
   const orderId = "#GSP-" + Math.random().toString(36).substring(2,8).toUpperCase();
   const now = new Date();
 
-  appState.orders.unshift({
-    id:orderId, items, subtotal, shipping, total,
+  // Pesanan disimpan ke daftar GLOBAL (allOrders), bukan ke appState,
+  // supaya tetap ada & terlihat oleh Admin walau pembeli logout.
+  allOrders.unshift({
+    id:orderId, owner:appState.user.email, items, subtotal, shipping, total,
     address, payment:"COD - Bayar di Tempat", status:"Menunggu Konfirmasi",
     date:now.toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'}),
     dateObj: now
@@ -1591,13 +1614,19 @@ function placeOrder(){
 }
 
 /* ======================= ORDERS LOGIC (PEMBELI) ======================= */
+function myOrders(){
+  // Pembeli hanya melihat pesanan miliknya sendiri, diambil dari allOrders global.
+  return allOrders.filter(o => o.owner === appState.user.email);
+}
+
 function renderOrders(){
   const el = document.getElementById('ordersList');
-  if(appState.orders.length === 0){
+  const orders = myOrders();
+  if(orders.length === 0){
     el.innerHTML = `<div class="empty-state"><div class="emoji">📦</div>Belum ada pesanan.<br>Yuk mulai belanja gadget dulu!</div>`;
     return;
   }
-  el.innerHTML = appState.orders.map(o => `
+  el.innerHTML = orders.map(o => `
     <div class="order-card">
       <div class="order-top">
         <div>
@@ -1623,8 +1652,9 @@ function renderProfile(){
   document.getElementById('profileAddress').textContent = appState.user.address || "Belum diisi";
   document.getElementById('addressInput').value = appState.user.address || "";
 
-  document.getElementById('statOrders').textContent = appState.orders.length;
-  const totalSpent = appState.orders.reduce((s,o) => s + o.total, 0);
+  const orders = myOrders();
+  document.getElementById('statOrders').textContent = orders.length;
+  const totalSpent = orders.reduce((s,o) => s + o.total, 0);
   document.getElementById('statSpent').textContent = formatRp(totalSpent);
   document.getElementById('statCartCount').textContent = appState.cart.reduce((s,l) => s + l.qty, 0);
 }
@@ -1643,11 +1673,12 @@ function openLogoutModal(){ document.getElementById('logoutModal').classList.add
 function closeLogoutModal(){ document.getElementById('logoutModal').classList.remove('open'); }
 
 function confirmLogout(){
-  // akun (registeredUsers) sengaja TIDAK direset supaya lain kali bisa login langsung
+  // akun (registeredUsers) & pesanan (allOrders) SENGAJA TIDAK direset saat
+  // logout, supaya lain kali bisa login langsung dan pesanan tetap terlihat
+  // oleh Admin di menu Pesanan.
   appState.loggedIn = false;
   appState.user = {email:"",username:"",password:"",phone:"",address:""};
   appState.cart = [];
-  appState.orders = [];
   appState.currentProductId = null;
   appState.selectedColor = null;
   appState.selectedSize = null;
@@ -1682,10 +1713,10 @@ function adminGoTo(tab){
 
 function renderAdmin(){
   document.getElementById('adminStatProducts').textContent = products.length;
-  document.getElementById('adminStatOrders').textContent = appState.orders.length;
-  const revenue = appState.orders.reduce((s,o) => s + o.total, 0);
+  document.getElementById('adminStatOrders').textContent = allOrders.length;
+  const revenue = allOrders.reduce((s,o) => s + o.total, 0);
   document.getElementById('adminStatRevenue').textContent = formatRp(revenue);
-  const pending = appState.orders.filter(o => o.status === "Menunggu Konfirmasi").length;
+  const pending = allOrders.filter(o => o.status === "Menunggu Konfirmasi").length;
   document.getElementById('adminStatPending').textContent = pending;
   updateAdminPendingBadge();
 }
@@ -1693,13 +1724,13 @@ function renderAdmin(){
 /* ----- TAB: PESANAN + KONFIRMASI (NOTIFIKASI PENJUALAN) ----- */
 function renderAdminOrders(){
   const ordersEl = document.getElementById('adminOrdersList');
-  if(appState.orders.length === 0){
+  if(allOrders.length === 0){
     ordersEl.innerHTML = `<div class="empty-state"><div class="emoji">📭</div>Belum ada pesanan masuk dari pembeli.</div>`;
     updateAdminPendingBadge();
     return;
   }
   const statusOptions = ["Menunggu Konfirmasi","Dikemas","Dikirim","Selesai","Dibatalkan"];
-  ordersEl.innerHTML = appState.orders.map((o,idx) => `
+  ordersEl.innerHTML = allOrders.map((o,idx) => `
     <div class="admin-order-card ${o.status==='Menunggu Konfirmasi' ? 'is-pending' : ''}">
       <div class="admin-order-top">
         <b>${o.id} ${o.status==='Menunggu Konfirmasi' ? '<span class="new-order-tag">🔔 Pesanan Baru</span>' : ''}</b>
@@ -1708,6 +1739,7 @@ function renderAdminOrders(){
         </select>
       </div>
       <div class="order-items-list">${o.items.map(l => `${l.name} x${l.qty}`).join('<br>')}</div>
+      <div class="order-items-list" style="opacity:.7;">👤 ${o.owner || '-'}</div>
       <div class="order-total-row"><span>${o.date}</span><span>${formatRp(o.total)}</span></div>
       ${o.status==='Menunggu Konfirmasi' ? `<button class="btn btn-primary" style="width:100%;margin-top:10px;" onclick="confirmOrder(${idx})">✔ Konfirmasi Pesanan</button>` : ''}
     </div>
@@ -1716,21 +1748,21 @@ function renderAdminOrders(){
 }
 
 function confirmOrder(idx){
-  appState.orders[idx].status = "Dikemas";
-  showToast(`${appState.orders[idx].id} dikonfirmasi, mulai dikemas`);
+  allOrders[idx].status = "Dikemas";
+  showToast(`${allOrders[idx].id} dikonfirmasi, mulai dikemas`);
   renderAdminOrders();
   renderAdmin();
 }
 
 function updateOrderStatus(idx, status){
-  appState.orders[idx].status = status;
-  showToast(`Status ${appState.orders[idx].id} diubah ke "${status}"`);
+  allOrders[idx].status = status;
+  showToast(`Status ${allOrders[idx].id} diubah ke "${status}"`);
   renderAdminOrders();
   renderAdmin();
 }
 
 function updateAdminPendingBadge(){
-  const pending = appState.orders.filter(o => o.status === "Menunggu Konfirmasi").length;
+  const pending = allOrders.filter(o => o.status === "Menunggu Konfirmasi").length;
   const badge = document.getElementById('adminPendingBadge');
   if(badge){
     badge.textContent = pending;
@@ -1861,12 +1893,12 @@ function setReportRange(range){
 }
 
 function renderReport(){
-  const totalRevenue = appState.orders.reduce((s,o) => s + o.total, 0);
+  const totalRevenue = allOrders.reduce((s,o) => s + o.total, 0);
   document.getElementById('reportSummaryValue').textContent = formatRp(totalRevenue);
 
   const range = appState.reportRange;
   const groups = {};
-  appState.orders.forEach(o => {
+  allOrders.forEach(o => {
     const d = o.dateObj || new Date();
     let key, label;
     if(range === 'harian'){
