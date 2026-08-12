@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>PinkAura Store — Fashion Wanita Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#7a2048;
+    --secondary:#9c3564;
+    --gold:#ff4fa3;
+    --bg:#fdf6f2;
+    --surface:#FFFFFF;
+    --ink:#2e2424;
+    --muted:#8a7a7a;
+    --line:#eddcd8;
+    --danger:#c23b3b;
+    --amber:#d99a2b;
+    --blue:#2e6cd9;
+    --green:#2e9e5b;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    font-family:'Poppins',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-tap-highlight-color:transparent;
+  }
+  h1,h2,h3,.display{font-family:'Fraunces',serif;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  img{max-width:100%;display:block;}
+  button,input,select,textarea{font-family:inherit;}
+  button{cursor:pointer;border:none;background:none;}
+  input,textarea{outline:none;}
+
+  .container{max-width:1100px;margin:0 auto;padding:0 5%;}
+
+  /* ================= ONBOARDING ================= */
+  #onboardingOverlay{
+    position:fixed;inset:0;z-index:1000;
+    background:linear-gradient(160deg,var(--primary),var(--secondary));
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  .ob-card{
+    width:100%;max-width:400px;background:var(--surface);
+    border-radius:22px;padding:32px 26px;
+    box-shadow:0 30px 60px rgba(0,0,0,.35);
+  }
+  .ob-logo{text-align:center;margin-bottom:6px;}
+  .ob-logo .brand{font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--primary);}
+  .ob-logo .brand span{color:var(--gold);}
+  .ob-sub{text-align:center;font-size:12.5px;color:var(--muted);margin-bottom:26px;}
+
+  .ob-dots{display:flex;justify-content:center;gap:8px;margin-bottom:24px;}
+  .ob-dot{width:8px;height:8px;border-radius:50%;background:var(--line);transition:all .3s ease;}
+  .ob-dot.active{background:var(--gold);width:22px;border-radius:5px;}
+
+  .ob-step{display:none;}
+  .ob-step.active{display:block;animation:fadein .35s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+  .ob-step h3{font-size:18px;color:var(--primary);margin-bottom:6px;}
+  .ob-step p.hint{font-size:12px;color:var(--muted);margin-bottom:20px;}
+
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:11.5px;font-weight:600;color:var(--secondary);margin-bottom:6px;}
+  .field input{
+    width:100%;padding:13px 14px;border-radius:12px;
+    border:1.5px solid var(--line);font-size:14px;background:#fafcfa;
+    transition:border .25s ease;
+  }
+  .field input:focus{border-color:var(--gold);background:#fff;}
+  .field .err{font-size:11px;color:var(--danger);margin-top:5px;display:none;}
+
+  .ob-actions{display:flex;gap:10px;margin-top:22px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    padding:13px 20px;border-radius:12px;font-size:13.5px;font-weight:600;
+    transition:all .25s ease;
+  }
+  .btn-primary{background:var(--primary);color:#fff;flex:1;}
+  .btn-primary:hover{background:var(--secondary);}
+  .btn-ghost{background:var(--bg);color:var(--secondary);}
+  .btn-gold{background:var(--gold);color:#fff;flex:1;}
+  .btn-gold:hover{filter:brightness(1.05);}
+
+  /* ================= APP SHELL ================= */
+  #app{display:none;min-height:100vh;padding-bottom:78px;}
+
+  header.app-header{
+    position:sticky;top:0;z-index:50;
+    background:var(--primary);color:#fff;
+    padding:16px 5%;
+    display:flex;align-items:center;justify-content:space-between;
+    box-shadow:0 6px 20px rgba(0,0,0,.12);
+  }
+  .brand-mark{font-family:'Fraunces',serif;font-size:20px;font-weight:700;}
+  .brand-mark span{color:var(--gold);}
+  .header-icons{display:flex;align-items:center;gap:16px;}
+  .icon-wrap{position:relative;font-size:19px;}
+  .icon-badge{
+    position:absolute;top:-8px;right:-10px;background:var(--gold);color:#fff;
+    font-size:10px;font-weight:700;width:17px;height:17px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .back-btn{font-size:20px;}
+  .header-title{font-size:15px;font-weight:600;}
+
+  main{max-width:1100px;margin:0 auto;padding:18px 5% 30px;}
+  .view{display:none;}
+  .view.active{display:block;animation:fadein .3s ease;}
+
+  /* ================= HOME ================= */
+  .section-title{
+    display:flex;justify-content:space-between;align-items:center;
+    margin:22px 0 14px;
+  }
+  .section-title h2{font-size:18px;color:var(--primary);}
+  .section-title span{font-size:11.5px;color:var(--gold);font-weight:600;}
+
+  .promo-banner{
+    background:linear-gradient(120deg,var(--primary),var(--secondary));
+    color:#fff;border-radius:18px;padding:24px 20px;position:relative;overflow:hidden;
+  }
+  .promo-banner::after{
+    content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;
+    background:radial-gradient(circle,rgba(255,79,163,.35),transparent 70%);
+  }
+  .promo-banner .tag{font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;}
+  .promo-banner h2{font-size:22px;margin:8px 0 6px;}
+  .promo-banner p{font-size:12.5px;opacity:.85;max-width:230px;}
+
+  .hscroll{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none;}
+  .hscroll::-webkit-scrollbar{display:none;}
+
+  .cat-chips{display:flex;gap:9px;overflow-x:auto;padding:2px 2px 4px;scrollbar-width:none;}
+  .cat-chips::-webkit-scrollbar{display:none;}
+  .chip{
+    flex:0 0 auto;padding:9px 18px;border-radius:20px;font-size:12.5px;font-weight:600;
+    background:var(--surface);border:1.5px solid var(--line);color:var(--secondary);
+  }
+  .chip.active{background:var(--primary);border-color:var(--primary);color:#fff;}
+
+  .grid-products{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px;
+  }
+  @media(min-width:720px){ .grid-products{grid-template-columns:repeat(4,1fr);} }
+
+  .p-card{
+    background:var(--surface);border-radius:16px;overflow:hidden;
+    box-shadow:0 8px 20px -10px rgba(30,58,43,.25);
+    flex:0 0 150px;
+    display:flex;flex-direction:column;
+  }
+  .grid-products .p-card{flex:none;width:100%;}
+
+  .p-img{position:relative;height:170px;background:var(--bg);cursor:pointer;}
+  .p-img img{width:100%;height:100%;object-fit:cover;}
+  .p-badge{
+    position:absolute;top:10px;left:10px;background:var(--gold);color:#fff;
+    font-size:9.5px;font-weight:700;padding:4px 9px;border-radius:20px;
+  }
+  .p-body{padding:11px 11px 13px;flex:1;display:flex;flex-direction:column;}
+  .p-name{font-size:12.5px;font-weight:600;line-height:1.3;margin-bottom:4px;cursor:pointer;}
+  .p-desc{font-size:10.5px;color:var(--muted);margin-bottom:6px;line-height:1.4;}
+  .p-rating{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--muted);margin-bottom:6px;}
+  .p-rating .stars{color:var(--gold);}
+  .p-price{font-size:13.5px;font-weight:700;color:var(--primary);margin-bottom:10px;}
+  .p-actions{display:flex;gap:6px;margin-top:auto;}
+  .p-actions button{flex:1;padding:8px 4px;border-radius:9px;font-size:10.5px;font-weight:600;}
+  .btn-cart-sm{background:var(--bg);color:var(--secondary);border:1px solid var(--line);}
+  .btn-buy-sm{background:var(--primary);color:#fff;}
+
+  /* ================= PRODUCT DETAIL ================= */
+  .pd-img{border-radius:18px;overflow:hidden;height:340px;background:var(--surface);margin-bottom:16px;}
+  .pd-img img{width:100%;height:100%;object-fit:cover;}
+  .pd-cat{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;}
+  .pd-name{font-size:21px;color:var(--primary);margin:6px 0 8px;}
+  .pd-meta{display:flex;align-items:center;gap:14px;font-size:12px;color:var(--muted);margin-bottom:12px;}
+  .pd-price{font-size:22px;font-weight:700;color:var(--primary);margin-bottom:16px;}
+  .pd-desc{font-size:13px;color:#4a544c;line-height:1.7;margin-bottom:20px;}
+
+  .variant-block{margin-bottom:18px;}
+  .variant-block h4{font-size:13px;color:var(--secondary);margin-bottom:10px;}
+  .color-opts{display:flex;gap:10px;flex-wrap:wrap;}
+  .color-dot{
+    width:34px;height:34px;border-radius:50%;border:2.5px solid transparent;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    transition:all .2s ease;
+  }
+  .color-dot.selected{border-color:var(--gold);transform:scale(1.1);}
+  .color-inner{width:100%;height:100%;border-radius:50%;border:1px solid rgba(0,0,0,.08);}
+
+  .size-opts{display:flex;gap:10px;flex-wrap:wrap;}
+  .size-opt{
+    width:46px;height:40px;border-radius:10px;border:1.5px solid var(--line);
+    display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;
+    color:var(--secondary);cursor:pointer;transition:all .2s ease;
+  }
+  .size-opt.selected{background:var(--primary);border-color:var(--primary);color:#fff;}
+
+  .review-item{
+    display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);
+  }
+  .review-item img{width:38px;height:38px;border-radius:50%;object-fit:cover;}
+  .review-name{font-size:12.5px;font-weight:600;}
+  .review-stars{color:var(--gold);font-size:11px;margin:2px 0 4px;}
+  .review-text{font-size:12px;color:#5a645c;line-height:1.5;}
+
+  .pd-sticky-bar{
+    position:sticky;bottom:0;background:var(--surface);
+    padding:12px 0 4px;display:flex;gap:10px;
+    border-top:1px solid var(--line);margin-top:10px;
+  }
+  .pd-sticky-bar button{flex:1;padding:14px;border-radius:12px;font-size:13.5px;font-weight:600;}
+  .btn-add-cart{background:var(--bg);color:var(--primary);border:1.5px solid var(--primary);}
+  .btn-buy-now{background:var(--primary);color:#fff;}
+
+  /* ================= CART ================= */
+  .cart-item{
+    display:flex;gap:12px;background:var(--surface);border-radius:16px;
+    padding:12px;margin-bottom:12px;box-shadow:0 6px 16px -10px rgba(30,58,43,.2);
+  }
+  .cart-check{width:18px;height:18px;accent-color:var(--primary);align-self:center;}
+  .cart-item img{width:64px;height:78px;border-radius:10px;object-fit:cover;}
+  .ci-info{flex:1;}
+  .ci-name{font-size:13px;font-weight:600;margin-bottom:3px;}
+  .ci-variant{font-size:10.5px;color:var(--muted);margin-bottom:5px;}
+  .ci-price{font-size:12.5px;font-weight:700;color:var(--primary);}
+  .ci-qty{display:flex;align-items:center;gap:8px;margin-top:6px;}
+  .qbtn{width:23px;height:23px;border-radius:6px;background:var(--bg);color:var(--primary);font-weight:700;font-size:13px;}
+  .ci-delete{font-size:11px;color:var(--danger);text-decoration:underline;margin-top:6px;cursor:pointer;}
+
+  .summary-box{
+    background:var(--surface);border-radius:16px;padding:16px;margin-top:16px;
+    box-shadow:0 6px 16px -10px rgba(30,58,43,.2);
+  }
+  .summary-row{display:flex;justify-content:space-between;font-size:12.5px;color:#4a544c;margin-bottom:8px;}
+  .summary-row.total{font-size:15px;font-weight:700;color:var(--primary);border-top:1px solid var(--line);padding-top:10px;margin-top:6px;}
+
+  .checkout-btn{
+    width:100%;background:var(--primary);color:#fff;padding:15px;border-radius:13px;
+    font-size:14px;font-weight:700;margin-top:14px;
+  }
+  .checkout-btn:disabled{background:#c9cfc9;}
+
+  /* ================= CHECKOUT ================= */
+  .co-block{
+    background:var(--surface);border-radius:16px;padding:16px;margin-bottom:14px;
+    box-shadow:0 6px 16px -10px rgba(30,58,43,.2);
+  }
+  .co-block h4{font-size:13px;color:var(--secondary);margin-bottom:10px;}
+  .co-item-row{display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:1px dashed var(--line);}
+  .co-item-row:last-child{border-bottom:none;}
+  .co-addr-input{
+    width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--line);
+    font-size:12.5px;resize:vertical;min-height:64px;
+  }
+  .pay-option{
+    display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;
+    border:1.5px solid var(--gold);background:#fdf9ee;font-size:12.5px;font-weight:600;color:var(--secondary);
+  }
+
+  /* ================= ORDERS ================= */
+  .order-card{
+    background:var(--surface);border-radius:16px;padding:15px;margin-bottom:13px;
+    box-shadow:0 6px 16px -10px rgba(30,58,43,.2);
+  }
+  .order-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+  .order-id{font-size:13px;font-weight:700;color:var(--primary);}
+  .order-date{font-size:10.5px;color:var(--muted);margin-top:2px;}
+  .order-status-badge{font-size:10.5px;font-weight:700;padding:5px 12px;border-radius:20px;background:#fdf0d0;color:var(--amber);white-space:nowrap;}
+  .order-items-list{font-size:11.5px;color:#4a544c;line-height:1.7;margin-bottom:8px;}
+  .order-total-row{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--primary);padding-top:8px;border-top:1px solid var(--line);}
+
+  /* ================= PROFILE ================= */
+  .profile-card{
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#fff;border-radius:20px;padding:26px 20px;text-align:center;position:relative;overflow:hidden;
+  }
+  .profile-avatar{
+    width:76px;height:76px;border-radius:50%;margin:0 auto 12px;
+    border:3px solid var(--gold);object-fit:cover;
+  }
+  .profile-name{font-size:18px;font-weight:600;}
+  .vip-badge{
+    display:inline-flex;align-items:center;gap:4px;margin-top:6px;
+    background:rgba(255,79,163,.18);border:1px solid var(--gold);color:var(--gold);
+    font-size:10.5px;font-weight:700;padding:4px 12px;border-radius:20px;
+  }
+  .profile-stats{display:flex;margin-top:20px;border-top:1px solid rgba(255,255,255,.15);padding-top:16px;}
+  .profile-stats div{flex:1;}
+  .profile-stats .num{font-size:16px;font-weight:700;color:var(--gold);}
+  .profile-stats .lbl{font-size:10px;opacity:.8;margin-top:2px;}
+
+  .info-list{background:var(--surface);border-radius:16px;margin-top:16px;overflow:hidden;box-shadow:0 6px 16px -10px rgba(30,58,43,.2);}
+  .info-row{display:flex;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line);font-size:12.5px;}
+  .info-row:last-child{border-bottom:none;}
+  .info-row .lbl{color:var(--muted);}
+  .info-row .val{font-weight:600;color:var(--ink);}
+
+  .logout-btn{
+    width:100%;margin-top:16px;padding:14px;border-radius:13px;
+    background:#fdeceb;color:var(--danger);font-weight:700;font-size:13px;
+  }
+
+  .empty-state{text-align:center;padding:60px 16px;color:var(--muted);font-size:13px;}
+  .empty-state .emoji{font-size:36px;margin-bottom:10px;}
+
+  /* ================= BOTTOM NAV ================= */
+  .bottom-nav{
+    position:fixed;bottom:0;left:0;right:0;z-index:60;
+    background:var(--surface);border-top:1px solid var(--line);
+    display:flex;box-shadow:0 -6px 20px rgba(0,0,0,.06);
+  }
+  .nav-item{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+    padding:11px 4px 9px;font-size:9.5px;font-weight:600;color:var(--muted);position:relative;
+  }
+  .nav-item .ic{font-size:19px;}
+  .nav-item.active{color:var(--primary);}
+  .nav-item.active .ic{transform:translateY(-1px);}
+  .nav-badge{
+    position:absolute;top:5px;right:22%;background:var(--gold);color:#fff;
+    font-size:9px;font-weight:700;width:15px;height:15px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  /* ================= MODAL & TOAST ================= */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(20,25,20,.55);z-index:800;
+    display:none;align-items:center;justify-content:center;padding:24px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:var(--surface);border-radius:18px;padding:26px 22px;max-width:340px;width:100%;text-align:center;
+  }
+  .modal-box h3{font-size:16px;color:var(--primary);margin-bottom:8px;}
+  .modal-box p{font-size:12.5px;color:var(--muted);margin-bottom:20px;}
+  .modal-actions{display:flex;gap:10px;}
+
+  .toast{
+    position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-20px);
+    background:var(--primary);color:#fff;padding:13px 22px;border-radius:12px;
+    font-size:12.5px;font-weight:500;opacity:0;pointer-events:none;
+    transition:all .35s ease;z-index:900;
+    display:flex;align-items:center;gap:8px;box-shadow:0 10px 26px rgba(0,0,0,.2);
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .toast .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);}
+
+  .success-check{
+    width:64px;height:64px;border-radius:50%;background:#e5f4ea;color:var(--green);
+    display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 14px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ ONBOARDING ============ -->
+<div id="onboardingOverlay">
+  <div class="ob-card">
+    <div class="ob-logo"><span class="brand">Pink<span>Aura</span></span></div>
+    <p class="ob-sub">Fashion wanita premium — buat akunmu dulu, yuk</p>
+
+    <div class="ob-dots">
+      <div class="ob-dot active" data-dot="1"></div>
+      <div class="ob-dot" data-dot="2"></div>
+      <div class="ob-dot" data-dot="3"></div>
+    </div>
+
+    <!-- STEP 1: EMAIL -->
+    <div class="ob-step active" id="obStep1">
+      <h3>Masukkan Email</h3>
+      <p class="hint">Kami pakai email ini untuk info pesanan kamu.</p>
+      <div class="field">
+        <label>Alamat Email</label>
+        <input type="email" id="obEmail" placeholder="nama@email.com">
+        <div class="err" id="errEmail">Masukkan email yang valid ya</div>
+      </div>
+      <div class="ob-actions">
+        <button class="btn btn-primary" onclick="obNext(1)">Lanjut</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: USERNAME & PASSWORD -->
+    <div class="ob-step" id="obStep2">
+      <h3>Buat Akun</h3>
+      <p class="hint">Username & password buat login kamu nanti.</p>
+      <div class="field">
+        <label>Username</label>
+        <input type="text" id="obUsername" placeholder="Aura" value="Aura">
+        <div class="err" id="errUsername">Username tidak boleh kosong</div>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="obPassword" placeholder="Minimal 6 karakter">
+        <div class="err" id="errPassword">Password minimal 6 karakter</div>
+      </div>
+      <div class="ob-actions">
+        <button class="btn btn-ghost" onclick="obBack(2)">Kembali</button>
+        <button class="btn btn-primary" onclick="obNext(2)">Lanjut</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: PHONE -->
+    <div class="ob-step" id="obStep3">
+      <h3>Nomor Telepon</h3>
+      <p class="hint">Untuk konfirmasi pengiriman pesanan kamu.</p>
+      <div class="field">
+        <label>Nomor HP</label>
+        <input type="tel" id="obPhone" placeholder="0812xxxxxxx">
+        <div class="err" id="errPhone">Masukkan nomor HP yang valid</div>
+      </div>
+      <div class="ob-actions">
+        <button class="btn btn-ghost" onclick="obBack(3)">Kembali</button>
+        <button class="btn btn-gold" onclick="obFinish()">Mulai Belanja ✨</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ APP SHELL ============ -->
+<div id="app">
+  <header class="app-header">
+    <div id="headerHomeState" style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+      <div class="brand-mark">Pink<span>Aura</span></div>
+      <div class="header-icons">
+        <div class="icon-wrap" onclick="goTo('cart')">
+          🛍️
+          <span class="icon-badge" id="headerCartBadge">0</span>
+        </div>
+      </div>
+    </div>
+    <div id="headerBackState" style="display:none;align-items:center;gap:14px;width:100%;">
+      <span class="back-btn" onclick="handleBack()">←</span>
+      <span class="header-title" id="headerTitle">Detail</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== HOME ===== -->
+    <section class="view active" id="view-home">
+      <div class="promo-banner">
+        <div class="tag">Koleksi Musim Ini</div>
+        <h2>Gaya Elegan,<br>Kesan Premium.</h2>
+        <p>Temukan padu padan busana wanita pilihan dengan kualitas terbaik.</p>
+      </div>
+
+      <div class="section-title">
+        <h2>Bestseller</h2>
+        <span>Terlaris</span>
+      </div>
+      <div class="hscroll" id="bestsellerScroll"></div>
+
+      <div class="section-title" style="margin-top:26px;">
+        <h2>Koleksi Pilihan</h2>
+      </div>
+      <div class="cat-chips" id="catChips">
+        <button class="chip active" data-cat="semua">Semua</button>
+        <button class="chip" data-cat="dress">Dress</button>
+        <button class="chip" data-cat="blouse">Blouse</button>
+        <button class="chip" data-cat="outer">Outer</button>
+        <button class="chip" data-cat="rok">Rok</button>
+      </div>
+      <div class="grid-products" id="productGrid"></div>
+    </section>
+
+    <!-- ===== PRODUCT DETAIL ===== -->
+    <section class="view" id="view-detail"></section>
+
+    <!-- ===== CART ===== -->
+    <section class="view" id="view-cart">
+      <div id="cartContent"></div>
+    </section>
+
+    <!-- ===== CHECKOUT ===== -->
+    <section class="view" id="view-checkout"></section>
+
+    <!-- ===== ORDERS ===== -->
+    <section class="view" id="view-orders">
+      <div class="section-title"><h2>Status Pesanan</h2></div>
+      <div id="ordersList"></div>
+    </section>
+
+    <!-- ===== PROFILE ===== -->
+    <section class="view" id="view-profile">
+      <div class="profile-card">
+        <img class="profile-avatar" src="https://i.pravatar.cc/150?img=47" alt="Profil">
+        <div class="profile-name" id="profileName">Aura</div>
+        <div class="vip-badge">★ VIP Member</div>
+        <div class="profile-stats">
+          <div><div class="num" id="statOrders">0</div><div class="lbl">Pesanan</div></div>
+          <div><div class="num" id="statSpent">Rp 0</div><div class="lbl">Total Belanja</div></div>
+          <div><div class="num" id="statCartCount">0</div><div class="lbl">Di Keranjang</div></div>
+        </div>
+      </div>
+
+      <div class="info-list">
+        <div class="info-row"><span class="lbl">Email</span><span class="val" id="profileEmail">-</span></div>
+        <div class="info-row"><span class="lbl">No. HP</span><span class="val" id="profilePhone">-</span></div>
+        <div class="info-row"><span class="lbl">Alamat</span><span class="val" id="profileAddress">Belum diisi</span></div>
+      </div>
+
+      <div class="info-list" style="margin-top:14px;">
+        <div class="info-row" style="display:block;">
+          <label class="lbl" style="display:block;margin-bottom:8px;">Ubah Alamat Pengiriman</label>
+          <textarea class="co-addr-input" id="addressInput" placeholder="Jl. Contoh No. 123, Kota, Provinsi"></textarea>
+          <button class="btn btn-primary" style="width:100%;margin-top:10px;" onclick="saveAddress()">Simpan Alamat</button>
+        </div>
+      </div>
+
+      <button class="logout-btn" onclick="openLogoutModal()">Keluar Akun</button>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="nav-item active" data-nav="home" onclick="goTo('home')">
+      <span class="ic">🏠</span><span>Beranda</span>
+    </div>
+    <div class="nav-item" data-nav="cart" onclick="goTo('cart')">
+      <span class="ic">🛍️</span><span>Keranjang</span>
+      <span class="nav-badge" id="navCartBadge" style="display:none;">0</span>
+    </div>
+    <div class="nav-item" data-nav="orders" onclick="goTo('orders')">
+      <span class="ic">📦</span><span>Pesanan</span>
+    </div>
+    <div class="nav-item" data-nav="profile" onclick="goTo('profile')">
+      <span class="ic">👤</span><span>Profil</span>
+    </div>
+  </nav>
+</div>
+
+<!-- ============ LOGOUT MODAL ============ -->
+<div class="modal-overlay" id="logoutModal">
+  <div class="modal-box">
+    <h3>Keluar dari Akun?</h3>
+    <p>Data keranjang & sesi kamu akan dikosongkan, dan kamu akan diarahkan ke halaman pendaftaran awal.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeLogoutModal()">Batal</button>
+      <button class="btn" style="flex:1;background:var(--danger);color:#fff;" onclick="confirmLogout()">Ya, Keluar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toastMsg"></span></div>
+
+<script>
+/* ======================= DATA PRODUK ======================= */
+const products = [
+  {id:1,name:"Dress Midi Aura",price:249000,oldPrice:329000,desc:"Dress midi lembut dengan siluet elegan, cocok untuk acara formal maupun santai sehari-hari.",rating:4.8,sold:238,cat:"dress",badge:"Best Seller",
+   img:"https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&q=80",
+   colors:[{name:"Maroon",hex:"#7a2048"},{name:"Hitam",hex:"#222222"},{name:"Cream",hex:"#e9d9c9"}],
+   sizes:["S","M","L","XL"]},
+  {id:2,name:"Blouse Satin Rose",price:189000,oldPrice:null,desc:"Blouse berbahan satin premium dengan jatuhan kain yang halus dan nyaman dipakai seharian.",rating:4.6,sold:172,cat:"blouse",badge:"Baru",
+   img:"https://images.unsplash.com/photo-1551803091-e20673f15770?w=600&q=80",
+   colors:[{name:"Rose",hex:"#e8a4bb"},{name:"Putih",hex:"#f7f5f2"},{name:"Forest",hex:"#1E3A2B"}],
+   sizes:["S","M","L"]},
+  {id:3,name:"Outer Blazer Plum",price:319000,oldPrice:399000,desc:"Blazer potongan modern, sempurna untuk tampilan kerja maupun acara semi-formal.",rating:4.9,sold:301,cat:"outer",badge:"Best Seller",
+   img:"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80",
+   colors:[{name:"Plum",hex:"#5c2340"},{name:"Navy",hex:"#1f2a44"}],
+   sizes:["M","L","XL"]},
+  {id:4,name:"Rok Plisket Blush",price:159000,oldPrice:null,desc:"Rok plisket dengan gerakan kain yang anggun, cocok dipadukan dengan blouse favoritmu.",rating:4.5,sold:96,cat:"rok",badge:null,
+   img:"https://images.unsplash.com/photo-1583496661160-fb5886a13d77?w=600&q=80",
+   colors:[{name:"Blush",hex:"#f2c9d6"},{name:"Gold",hex:"#D4AF37"}],
+   sizes:["S","M","L"]},
+  {id:5,name:"Dress Kasual Sunday",price:219000,oldPrice:null,desc:"Dress kasual dengan potongan nyaman, ideal untuk aktivitas santai di akhir pekan.",rating:4.7,sold:143,cat:"dress",badge:"Baru",
+   img:"https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&q=80",
+   colors:[{name:"Forest",hex:"#1E3A2B"},{name:"Cream",hex:"#e9d9c9"}],
+   sizes:["S","M","L","XL"]},
+  {id:6,name:"Blouse Ruffle Cream",price:175000,oldPrice:225000,desc:"Blouse dengan detail ruffle lembut yang menambah kesan feminin pada penampilanmu.",rating:4.4,sold:88,cat:"blouse",badge:"Sale",
+   img:"https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=600&q=80",
+   colors:[{name:"Cream",hex:"#e9d9c9"},{name:"Hitam",hex:"#222222"}],
+   sizes:["S","M"]},
+  {id:7,name:"Outer Cardigan Soft",price:229000,oldPrice:null,desc:"Cardigan berbahan lembut dan hangat, teman sempurna untuk hari-hari santai.",rating:4.6,sold:120,cat:"outer",badge:null,
+   img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80",
+   colors:[{name:"Forest",hex:"#1E3A2B"},{name:"Blush",hex:"#f2c9d6"}],
+   sizes:["M","L","XL"]},
+  {id:8,name:"Rok Denim Aura",price:189000,oldPrice:null,desc:"Rok denim klasik dengan potongan A-line yang mudah dipadupadankan.",rating:4.5,sold:76,cat:"rok",badge:"Baru",
+   img:"https://images.unsplash.com/photo-1583496661160-fb5886a13d77?w=600&q=80",
+   colors:[{name:"Denim Blue",hex:"#3b5a7a"}],
+   sizes:["S","M","L"]},
+];
+
+const sampleReviews = [
+  {name:"Nabila Putri",avatar:"https://i.pravatar.cc/60?img=32",rating:5,text:"Bahannya adem banget dan jahitannya rapi, sesuai foto!"},
+  {name:"Rani Oktavia",avatar:"https://i.pravatar.cc/60?img=44",rating:4,text:"Suka warnanya, cuma pengiriman agak lama kemarin."},
+  {name:"Citra Ayu",avatar:"https://i.pravatar.cc/60?img=21",rating:5,text:"Ukurannya pas banget, bakal repeat order lagi."},
+];
+
+/* ======================= STATE APLIKASI ======================= */
+let appState = {
+  loggedIn:false,
+  user:{email:"",username:"",password:"",phone:"",address:""},
+  cart:[],       // {lineId, productId, name, price, img, color, size, qty, checked}
+  orders:[],     // {id, items, subtotal, shipping, total, address, payment, status, date}
+  currentProductId:null,
+  selectedColor:null,
+  selectedSize:null,
+  checkoutItems:[],
+  activeCat:"semua",
+};
+let nextLineId = 1;
+
+/* ======================= ONBOARDING LOGIC ======================= */
+function setDot(step){
+  document.querySelectorAll('.ob-dot').forEach(d=>{
+    d.classList.toggle('active', parseInt(d.dataset.dot) === step);
+  });
+}
+
+function obNext(fromStep){
+  if(fromStep === 1){
+    const email = document.getElementById('obEmail').value.trim();
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    document.getElementById('errEmail').style.display = valid ? 'none' : 'block';
+    if(!valid) return;
+    appState.user.email = email;
+    document.getElementById('obStep1').classList.remove('active');
+    document.getElementById('obStep2').classList.add('active');
+    setDot(2);
+  }
+  if(fromStep === 2){
+    const uname = document.getElementById('obUsername').value.trim();
+    const pass = document.getElementById('obPassword').value;
+    let ok = true;
+    if(!uname){ document.getElementById('errUsername').style.display='block'; ok=false; }
+    else document.getElementById('errUsername').style.display='none';
+    if(pass.length < 6){ document.getElementById('errPassword').style.display='block'; ok=false; }
+    else document.getElementById('errPassword').style.display='none';
+    if(!ok) return;
+    appState.user.username = uname;
+    appState.user.password = pass;
+    document.getElementById('obStep2').classList.remove('active');
+    document.getElementById('obStep3').classList.add('active');
+    setDot(3);
+  }
+}
+
+function obBack(fromStep){
+  if(fromStep === 2){
+    document.getElementById('obStep2').classList.remove('active');
+    document.getElementById('obStep1').classList.add('active');
+    setDot(1);
+  }
+  if(fromStep === 3){
+    document.getElementById('obStep3').classList.remove('active');
+    document.getElementById('obStep2').classList.add('active');
+    setDot(2);
+  }
+}
+
+function obFinish(){
+  const phone = document.getElementById('obPhone').value.trim();
+  const valid = /^[0-9]{9,14}$/.test(phone);
+  document.getElementById('errPhone').style.display = valid ? 'none' : 'block';
+  if(!valid) return;
+  appState.user.phone = phone;
+  appState.loggedIn = true;
+
+  document.getElementById('onboardingOverlay').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+
+  document.getElementById('profileName').textContent = appState.user.username || "Aura";
+  document.getElementById('profileEmail').textContent = appState.user.email;
+  document.getElementById('profilePhone').textContent = appState.user.phone;
+
+  renderHome();
+  showToast(`Selamat datang, ${appState.user.username}! 🎉`);
+}
+
+/* ======================= NAVIGASI VIEW ======================= */
+function goTo(viewName, opts){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-' + viewName).classList.add('active');
+
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    n.classList.toggle('active', n.dataset.nav === viewName);
+  });
+
+  const headerHome = document.getElementById('headerHomeState');
+  const headerBack = document.getElementById('headerBackState');
+  const titles = {detail:"Detail Produk", cart:"Keranjang Belanja", checkout:"Checkout", orders:"Status Pesanan", profile:"Profil Saya"};
+
+  if(viewName === 'home'){
+    headerHome.style.display = 'flex';
+    headerBack.style.display = 'none';
+  } else {
+    headerHome.style.display = 'none';
+    headerBack.style.display = 'flex';
+    document.getElementById('headerTitle').textContent = titles[viewName] || "";
+  }
+
+  if(viewName === 'cart') renderCart();
+  if(viewName === 'orders') renderOrders();
+  if(viewName === 'profile') renderProfile();
+
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+function handleBack(){
+  const active = document.querySelector('.view.active').id.replace('view-','');
+  if(active === 'checkout'){ goTo('cart'); return; }
+  if(active === 'detail'){ goTo('home'); return; }
+  goTo('home');
+}
+
+/* ======================= FORMAT HELPER ======================= */
+function formatRp(n){ return "Rp " + n.toLocaleString('id-ID'); }
+function starString(rating){
+  const full = Math.round(rating);
+  return "★".repeat(full) + "☆".repeat(5-full);
+}
+
+/* ======================= RENDER HOME ======================= */
+function renderHome(){
+  const best = products.filter(p => p.badge === "Best Seller");
+  document.getElementById('bestsellerScroll').innerHTML = best.map(p => productCardHTML(p)).join('');
+
+  renderProductGrid();
+}
+
+function renderProductGrid(){
+  const filtered = appState.activeCat === "semua" ? products : products.filter(p => p.cat === appState.activeCat);
+  document.getElementById('productGrid').innerHTML = filtered.map(p => productCardHTML(p)).join('');
+}
+
+function productCardHTML(p){
+  return `
+    <div class="p-card">
+      <div class="p-img" onclick="openDetail(${p.id})">
+        ${p.badge ? `<span class="p-badge">${p.badge}</span>` : ""}
+        <img src="${p.img}" alt="${p.name}">
+      </div>
+      <div class="p-body">
+        <div class="p-name" onclick="openDetail(${p.id})">${p.name}</div>
+        <div class="p-desc">${p.desc.slice(0,42)}...</div>
+        <div class="p-rating"><span class="stars">★</span> ${p.rating} · ${p.sold} terjual</div>
+        <div class="p-price">${formatRp(p.price)}</div>
+        <div class="p-actions">
+          <button class="btn-cart-sm" onclick="quickAddToCart(${p.id})">+ Keranjang</button>
+          <button class="btn-buy-sm" onclick="openDetail(${p.id})">Beli Direct</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+document.getElementById('catChips').addEventListener('click', e=>{
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  appState.activeCat = chip.dataset.cat;
+  renderProductGrid();
+});
+
+function quickAddToCart(productId){
+  const p = products.find(p => p.id === productId);
+  addLineToCart(p, p.colors[0].name, p.sizes[0], 1);
+  showToast(`${p.name} ditambahkan (${p.colors[0].name}, ${p.sizes[0]})`);
+}
+
+/* ======================= RENDER DETAIL PRODUK ======================= */
+function openDetail(productId){
+  appState.currentProductId = productId;
+  const p = products.find(p => p.id === productId);
+  appState.selectedColor = p.colors[0].name;
+  appState.selectedSize = p.sizes[0];
+
+  document.getElementById('view-detail').innerHTML = `
+    <div class="pd-img"><img src="${p.img}" alt="${p.name}"></div>
+    <div class="pd-cat">${p.cat}</div>
+    <h2 class="pd-name">${p.name}</h2>
+    <div class="pd-meta">
+      <span>${starString(p.rating)} ${p.rating}</span>
+      <span>·</span>
+      <span>${p.sold} terjual</span>
+    </div>
+    <div class="pd-price">${formatRp(p.price)} ${p.oldPrice ? `<span style="font-size:13px;color:#a8a8a8;text-decoration:line-through;font-weight:400;">${formatRp(p.oldPrice)}</span>` : ""}</div>
+    <p class="pd-desc">${p.desc}</p>
+
+    <div class="variant-block">
+      <h4>Pilih Warna: <span id="colorLabel">${p.colors[0].name}</span></h4>
+      <div class="color-opts" id="colorOpts">
+        ${p.colors.map((c,i) => `
+          <div class="color-dot ${i===0?'selected':''}" data-color="${c.name}" onclick="selectColor('${c.name}')">
+            <div class="color-inner" style="background:${c.hex};"></div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="variant-block">
+      <h4>Pilih Ukuran: <span id="sizeLabel">${p.sizes[0]}</span></h4>
+      <div class="size-opts" id="sizeOpts">
+        ${p.sizes.map((s,i) => `
+          <div class="size-opt ${i===0?'selected':''}" data-size="${s}" onclick="selectSize('${s}')">${s}</div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:10px;"><h2 style="font-size:15px;">Ulasan Pembeli</h2></div>
+    ${sampleReviews.map(r => `
+      <div class="review-item">
+        <img src="${r.avatar}" alt="${r.name}">
+        <div>
+          <div class="review-name">${r.name}</div>
+          <div class="review-stars">${starString(r.rating)}</div>
+          <div class="review-text">${r.text}</div>
+        </div>
+      </div>
+    `).join('')}
+
+    <div class="pd-sticky-bar">
+      <button class="btn-add-cart" onclick="addToCartFromDetail()">+ Keranjang</button>
+      <button class="btn-buy-now" onclick="buyNowFromDetail()">Beli Sekarang</button>
+    </div>
+  `;
+  goTo('detail');
+}
+
+function selectColor(colorName){
+  appState.selectedColor = colorName;
+  document.getElementById('colorLabel').textContent = colorName;
+  document.querySelectorAll('.color-dot').forEach(d=>{
+    d.classList.toggle('selected', d.dataset.color === colorName);
+  });
+}
+function selectSize(size){
+  appState.selectedSize = size;
+  document.getElementById('sizeLabel').textContent = size;
+  document.querySelectorAll('.size-opt').forEach(d=>{
+    d.classList.toggle('selected', d.dataset.size === size);
+  });
+}
+
+function addToCartFromDetail(){
+  const p = products.find(p => p.id === appState.currentProductId);
+  addLineToCart(p, appState.selectedColor, appState.selectedSize, 1);
+  showToast(`${p.name} (${appState.selectedColor}, ${appState.selectedSize}) masuk keranjang`);
+}
+
+function buyNowFromDetail(){
+  const p = products.find(p => p.id === appState.currentProductId);
+  appState.checkoutItems = [{
+    lineId:null, productId:p.id, name:p.name, price:p.price, img:p.img,
+    color:appState.selectedColor, size:appState.selectedSize, qty:1
+  }];
+  renderCheckout();
+  goTo('checkout');
+}
+
+/* ======================= CART LOGIC ======================= */
+function addLineToCart(p, color, size, qty){
+  const existing = appState.cart.find(l => l.productId === p.id && l.color === color && l.size === size);
+  if(existing){
+    existing.qty += qty;
+  } else {
+    appState.cart.push({
+      lineId: nextLineId++, productId:p.id, name:p.name, price:p.price, img:p.img,
+      color, size, qty, checked:true
+    });
+  }
+  updateCartBadge();
+}
+
+function updateCartBadge(){
+  const totalQty = appState.cart.reduce((s,l) => s + l.qty, 0);
+  document.getElementById('headerCartBadge').textContent = totalQty;
+  const navBadge = document.getElementById('navCartBadge');
+  navBadge.textContent = totalQty;
+  navBadge.style.display = totalQty > 0 ? 'flex' : 'none';
+}
+
+function renderCart(){
+  const el = document.getElementById('cartContent');
+  if(appState.cart.length === 0){
+    el.innerHTML = `<div class="empty-state"><div class="emoji">🛍️</div>Keranjang kamu masih kosong.<br>Yuk mulai belanja!</div>`;
+    return;
+  }
+
+  const itemsHTML = appState.cart.map(l => `
+    <div class="cart-item">
+      <input type="checkbox" class="cart-check" ${l.checked?'checked':''} onchange="toggleCartCheck(${l.lineId})">
+      <img src="${l.img}" alt="${l.name}">
+      <div class="ci-info">
+        <div class="ci-name">${l.name}</div>
+        <div class="ci-variant">Warna: ${l.color} · Ukuran: ${l.size}</div>
+        <div class="ci-price">${formatRp(l.price)}</div>
+        <div class="ci-qty">
+          <button class="qbtn" onclick="changeQty(${l.lineId},-1)">−</button>
+          <span>${l.qty}</span>
+          <button class="qbtn" onclick="changeQty(${l.lineId},1)">+</button>
+        </div>
+        <div class="ci-delete" onclick="removeLine(${l.lineId})">Hapus</div>
+      </div>
+    </div>
+  `).join('');
+
+  const checkedLines = appState.cart.filter(l => l.checked);
+  const subtotal = checkedLines.reduce((s,l) => s + l.price * l.qty, 0);
+  const shipping = checkedLines.length > 0 ? 20000 : 0;
+  const total = subtotal + shipping;
+
+  el.innerHTML = itemsHTML + `
+    <div class="summary-box">
+      <div class="summary-row"><span>Subtotal (${checkedLines.length} produk dipilih)</span><span>${formatRp(subtotal)}</span></div>
+      <div class="summary-row"><span>Ongkos Kirim</span><span>${formatRp(shipping)}</span></div>
+      <div class="summary-row total"><span>Total</span><span>${formatRp(total)}</span></div>
+      <button class="checkout-btn" ${checkedLines.length===0?'disabled':''} onclick="goToCheckout()">Checkout (${checkedLines.length})</button>
+    </div>
+  `;
+}
+
+function toggleCartCheck(lineId){
+  const l = appState.cart.find(l => l.lineId === lineId);
+  if(l) l.checked = !l.checked;
+  renderCart();
+}
+function changeQty(lineId, delta){
+  const l = appState.cart.find(l => l.lineId === lineId);
+  if(!l) return;
+  l.qty += delta;
+  if(l.qty <= 0){ appState.cart = appState.cart.filter(x => x.lineId !== lineId); }
+  updateCartBadge();
+  renderCart();
+}
+function removeLine(lineId){
+  appState.cart = appState.cart.filter(l => l.lineId !== lineId);
+  updateCartBadge();
+  renderCart();
+  showToast("Produk dihapus dari keranjang");
+}
+
+function goToCheckout(){
+  const checkedLines = appState.cart.filter(l => l.checked);
+  if(checkedLines.length === 0) return;
+  appState.checkoutItems = checkedLines.map(l => ({...l}));
+  renderCheckout();
+  goTo('checkout');
+}
+
+/* ======================= CHECKOUT LOGIC ======================= */
+function renderCheckout(){
+  const items = appState.checkoutItems;
+  const subtotal = items.reduce((s,l) => s + l.price * l.qty, 0);
+  const shipping = 20000;
+  const total = subtotal + shipping;
+
+  document.getElementById('view-checkout').innerHTML = `
+    <div class="co-block">
+      <h4>Ringkasan Produk</h4>
+      ${items.map(l => `
+        <div class="co-item-row">
+          <span>${l.name} (${l.color}, ${l.size}) x${l.qty}</span>
+          <span>${formatRp(l.price * l.qty)}</span>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="co-block">
+      <h4>Alamat Pengiriman</h4>
+      <textarea class="co-addr-input" id="coAddress">${appState.user.address || ''}</textarea>
+    </div>
+
+    <div class="co-block">
+      <h4>Metode Pembayaran</h4>
+      <div class="pay-option">💵 COD — Bayar di Tempat</div>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-row"><span>Subtotal</span><span>${formatRp(subtotal)}</span></div>
+      <div class="summary-row"><span>Ongkos Kirim</span><span>${formatRp(shipping)}</span></div>
+      <div class="summary-row total"><span>Total Bayar</span><span>${formatRp(total)}</span></div>
+      <button class="checkout-btn" onclick="placeOrder()">Buat Pesanan</button>
+    </div>
+  `;
+}
+
+function placeOrder(){
+  const address = document.getElementById('coAddress').value.trim();
+  if(!address){
+    showToast("Alamat pengiriman wajib diisi");
+    return;
+  }
+  appState.user.address = address;
+
+  const items = appState.checkoutItems;
+  const subtotal = items.reduce((s,l) => s + l.price * l.qty, 0);
+  const shipping = 20000;
+  const total = subtotal + shipping;
+  const orderId = "#VCZ-" + Math.random().toString(36).substring(2,8).toUpperCase();
+
+  appState.orders.unshift({
+    id:orderId, items, subtotal, shipping, total,
+    address, payment:"COD - Bayar di Tempat", status:"Dikemas",
+    date:new Date().toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'})
+  });
+
+  // hapus item yang berasal dari cart (yang punya lineId)
+  const orderedLineIds = items.filter(i => i.lineId).map(i => i.lineId);
+  appState.cart = appState.cart.filter(l => !orderedLineIds.includes(l.lineId));
+  appState.checkoutItems = [];
+  updateCartBadge();
+
+  goTo('orders');
+  showToast(`Pesanan ${orderId} berhasil dibuat! 🎉`);
+}
+
+/* ======================= ORDERS LOGIC ======================= */
+function renderOrders(){
+  const el = document.getElementById('ordersList');
+  if(appState.orders.length === 0){
+    el.innerHTML = `<div class="empty-state"><div class="emoji">📦</div>Belum ada pesanan.<br>Yuk mulai belanja dulu!</div>`;
+    return;
+  }
+  el.innerHTML = appState.orders.map(o => `
+    <div class="order-card">
+      <div class="order-top">
+        <div>
+          <div class="order-id">${o.id}</div>
+          <div class="order-date">${o.date}</div>
+        </div>
+        <span class="order-status-badge">${o.status}</span>
+      </div>
+      <div class="order-items-list">
+        ${o.items.map(l => `${l.name} — ${l.color}, ${l.size} x${l.qty}`).join('<br>')}
+      </div>
+      <div class="order-items-list" style="opacity:.75;">📍 ${o.address}</div>
+      <div class="order-total-row"><span>${o.payment}</span><span>${formatRp(o.total)}</span></div>
+    </div>
+  `).join('');
+}
+
+/* ======================= PROFILE LOGIC ======================= */
+function renderProfile(){
+  document.getElementById('profileName').textContent = appState.user.username || "Aura";
+  document.getElementById('profileEmail').textContent = appState.user.email || "-";
+  document.getElementById('profilePhone').textContent = appState.user.phone || "-";
+  document.getElementById('profileAddress').textContent = appState.user.address || "Belum diisi";
+  document.getElementById('addressInput').value = appState.user.address || "";
+
+  document.getElementById('statOrders').textContent = appState.orders.length;
+  const totalSpent = appState.orders.reduce((s,o) => s + o.total, 0);
+  document.getElementById('statSpent').textContent = formatRp(totalSpent);
+  document.getElementById('statCartCount').textContent = appState.cart.reduce((s,l) => s + l.qty, 0);
+}
+
+function saveAddress(){
+  const val = document.getElementById('addressInput').value.trim();
+  appState.user.address = val;
+  document.getElementById('profileAddress').textContent = val || "Belum diisi";
+  showToast("Alamat berhasil disimpan");
+}
+
+/* ======================= LOGOUT ======================= */
+function openLogoutModal(){ document.getElementById('logoutModal').classList.add('open'); }
+function closeLogoutModal(){ document.getElementById('logoutModal').classList.remove('open'); }
+
+function confirmLogout(){
+  appState = {
+    loggedIn:false,
+    user:{email:"",username:"",password:"",phone:"",address:""},
+    cart:[], orders:[], currentProductId:null,
+    selectedColor:null, selectedSize:null, checkoutItems:[], activeCat:"semua"
+  };
+
+  closeLogoutModal();
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('onboardingOverlay').style.display = 'flex';
+
+  document.getElementById('obStep1').classList.add('active');
+  document.getElementById('obStep2').classList.remove('active');
+  document.getElementById('obStep3').classList.remove('active');
+  setDot(1);
+  document.getElementById('obEmail').value = '';
+  document.getElementById('obUsername').value = 'Aura';
+  document.getElementById('obPassword').value = '';
+  document.getElementById('obPhone').value = '';
+
+  showToast("Kamu berhasil keluar");
+}
+
+/* ======================= TOAST ======================= */
+let toastTimer;
+function showToast(msg){
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> toast.classList.remove('show'), 2400);
+}
+</script>
+</body>
+</html>
