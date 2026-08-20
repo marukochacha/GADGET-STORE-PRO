@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>GADGET STORE PRO — Elektronik & Aksesoris Terpercaya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- ============ ROLE SELECT (LANDING) ============ -->
+<div id="roleOverlay">
+  <div class="role-card">
+    <div class="role-logo-mark">📱<span class="led"></span></div>
+    <div class="role-brand">GADGET<span>STORE</span><span class="role-pro-tag">PRO</span></div>
+    <p class="role-sub">Pusat gadget &amp; aksesoris original. Pilih peran kamu untuk melanjutkan.</p>
+    <button class="role-btn buyer" onclick="chooseRole('buyer')">
+      <span class="r-ic">🛒</span>
+      <span class="r-txt">
+        <div class="r-title">Masuk sebagai Pembeli</div>
+        <div class="r-desc">Belanja smartphone, audio &amp; aksesoris</div>
+      </span>
+    </button>
+
+    <div class="role-divider">atau</div>
+
+    <button class="role-btn admin" onclick="chooseRole('admin')">
+      <span class="r-ic">🗄️</span>
+      <span class="r-txt">
+        <div class="r-title">Masuk sebagai Penjual (Admin)</div>
+        <div class="r-desc">Kelola produk &amp; pantau pesanan masuk</div>
+      </span>
+    </button>
+
+    <div class="role-footnote">Pembeli → belanja produk gadget · Penjual → kelola stok &amp; pesanan toko</div>
+  </div>
+</div>
+
+<!-- ============ LOGIN PEMBELI (UNTUK YANG SUDAH PUNYA AKUN) ============ -->
+<div id="loginOverlay">
+  <div class="ob-card">
+    <div class="ob-logo"><span class="brand">Gadget<span>Store</span></span></div>
+    <p class="ob-sub">Masuk ke akun kamu yang sudah terdaftar</p>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="nama@email.com">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="Password kamu">
+      <div class="err" id="errLogin">Email atau password salah</div>
+    </div>
+
+    <div class="ob-actions">
+      <button class="btn btn-ghost" onclick="cancelBuyerLogin()">Batal</button>
+      <button class="btn btn-primary" onclick="loginBuyer()">Masuk</button>
+    </div>
+    <div class="switch-link">Belum punya akun? <a href="javascript:void(0)" onclick="goToSignupFromLogin()">Daftar di sini</a></div>
+  </div>
+</div>
+
+<!-- ============ ONBOARDING (PEMBELI BARU) ============ -->
+<div id="onboardingOverlay">
+  <div class="ob-card">
+    <div class="ob-logo"><span class="brand">Gadget<span>Store</span></span></div>
+    <p class="ob-sub">Pusat gadget &amp; aksesoris — buat akunmu dulu, yuk</p>
+    <div class="ob-dots">
+      <div class="ob-dot active" data-dot="1"></div>
+      <div class="ob-dot" data-dot="2"></div>
+      <div class="ob-dot" data-dot="3"></div>
+    </div>
+
+    <!-- STEP 1: EMAIL -->
+    <div class="ob-step active" id="obStep1">
+      <h3>Masukkan Email</h3>
+      <p class="hint">Kami pakai email ini untuk info pesanan gadget kamu.</p>
+      <div class="field">
+        <label>Alamat Email</label>
+        <input type="email" id="obEmail" placeholder="nama@email.com">
+        <div class="err" id="errEmail">Masukkan email yang valid ya</div>
+      </div>
+      <div class="ob-actions">
+        <button class="btn btn-primary" onclick="obNext(1)">Lanjut</button>
+      </div>
+      <div class="switch-link">Sudah punya akun? <a href="javascript:void(0)" onclick="goToLoginFromSignup()">Masuk di sini</a></div>
+    </div>
+
+    <!-- STEP 2: USERNAME & PASSWORD -->
+    <div class="ob-step" id="obStep2">
+      <h3>Buat Akun</h3>
+      <p class="hint">Username &amp; password buat login kamu nanti.</p>
+      <div class="field">
+        <label>Username</label>
+        <input type="text" id="obUsername" placeholder="Raka" value="Raka">
+        <div class="err" id="errUsername">Username tidak boleh kosong</div>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="obPassword" placeholder="Minimal 6 karakter">
+        <div class="err" id="errPassword">Password minimal 6 karakter</div>
+      </div>
+      <div class="ob-actions">
+        <button class="btn btn-ghost" onclick="obBack(2)">Kembali</button>
+        <button class="btn btn-primary" onclick="obNext(2)">Lanjut</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: PHONE -->
+    <div class="ob-step" id="obStep3">
+      <h3>Nomor Telepon</h3>
+      <p class="hint">Untuk konfirmasi pengiriman pesanan kamu.</p>
+      <div class="field">
+        <label>Nomor HP</label>
+        <input type="tel" id="obPhone" placeholder="0812xxxxxxx">
+        <div class="err" id="errPhone">Masukkan nomor HP yang valid</div>
+      </div>
+      <div class="ob-actions">
+        <button class="btn btn-ghost" onclick="obBack(3)">Kembali</button>
+        <button class="btn btn-gold" onclick="obFinish()">Mulai Belanja ⚡</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LOGIN ADMIN ============ -->
+<div id="adminLoginOverlay">
+  <div class="ob-card">
+    <div class="ob-logo"><span class="brand">Gadget<span>Store</span> Admin</span></div>
+    <p class="ob-sub">Masuk dengan akun admin untuk kelola toko</p>
+    <div class="field">
+      <label>Username</label>
+      <input type="text" id="adminUsername" placeholder="admin">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="adminPassword" placeholder="Password admin">
+      <div class="err" id="errAdminLogin">Username atau password admin salah</div>
+    </div>
+
+    <div class="ob-actions">
+      <button class="btn btn-ghost" onclick="cancelAdminLogin()">Batal</button>
+      <button class="btn btn-primary" onclick="adminLoginSubmit()">Masuk</button>
+    </div>
+    <p class="field-hint" style="text-align:center;margin-top:14px;">Demo: username <b>admin</b> · password <b>admin123</b></p>
+  </div>
+</div>
+
+<!-- ============ APP SHELL (PEMBELI) ============ -->
+<div id="app">
+  <header class="app-header">
+    <div id="headerHomeState" style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+      <div class="brand-mark">📱 Gadget<span>Store</span></div>
+      <div class="header-icons">
+        <div class="icon-wrap" onclick="goTo('cart')">
+          🛒
+          <span class="icon-badge" id="headerCartBadge">0</span>
+        </div>
+      </div>
+    </div>
+    <div id="headerBackState" style="display:none;align-items:center;gap:14px;width:100%;">
+      <span class="back-btn" onclick="handleBack()">←</span>
+      <span class="header-title" id="headerTitle">Detail</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== HOME ===== -->
+    <section class="view active" id="view-home">
+      <div class="promo-banner">
+        <div class="tag">Flash Sale Gadget</div>
+        <h2>Upgrade Perangkatmu,<br>Harga Bersahabat.</h2>
+        <p>Smartphone, audio, dan aksesoris pilihan dengan garansi resmi.</p>
+      </div>
+      <div class="section-title">
+        <h2>Bestseller</h2>
+        <span>Terlaris</span>
+      </div>
+      <div class="hscroll" id="bestsellerScroll"></div>
+
+      <div class="section-title" style="margin-top:26px;">
+        <h2>Koleksi Pilihan</h2>
+      </div>
+      <div class="cat-chips" id="catChips">
+        <button class="chip active" data-cat="semua">Semua</button>
+        <button class="chip" data-cat="smartphone">Smartphone</button>
+        <button class="chip" data-cat="ipad">iPad</button>
+        <button class="chip" data-cat="macbook">MacBook</button>
+        <button class="chip" data-cat="aksesoris">Aksesoris</button>
+      </div>
+      <div class="grid-products" id="productGrid"></div>
+    </section>
+
+    <!-- ===== PRODUCT DETAIL ===== -->
+    <section class="view" id="view-detail"></section>
+
+    <!-- ===== CART ===== -->
+    <section class="view" id="view-cart">
+      <div id="cartContent"></div>
+    </section>
+
+    <!-- ===== CHECKOUT ===== -->
+    <section class="view" id="view-checkout"></section>
+
+    <!-- ===== ORDERS ===== -->
+    <section class="view" id="view-orders">
+      <div class="section-title"><h2>Status Pesanan</h2></div>
+      <div id="ordersList"></div>
+    </section>
+
+    <!-- ===== PROFILE ===== -->
+    <section class="view" id="view-profile">
+      <div class="profile-card">
+        <img class="profile-avatar" src="https://i.pravatar.cc/150?img=12" alt="Profil">
+        <div class="profile-name" id="profileName">Raka</div>
+        <div class="vip-badge">⚡ Member Prioritas</div>
+        <div class="profile-stats">
+          <div><div class="num" id="statOrders">0</div><div class="lbl">Pesanan</div></div>
+          <div><div class="num" id="statSpent">Rp 0</div><div class="lbl">Total Belanja</div></div>
+          <div><div class="num" id="statCartCount">0</div><div class="lbl">Di Keranjang</div></div>
+        </div>
+      </div>
+
+      <div class="info-list">
+        <div class="info-row"><span class="lbl">Email</span><span class="val" id="profileEmail">-</span></div>
+        <div class="info-row"><span class="lbl">No. HP</span><span class="val" id="profilePhone">-</span></div>
+        <div class="info-row"><span class="lbl">Alamat</span><span class="val" id="profileAddress">Belum diisi</span></div>
+      </div>
+
+      <div class="info-list" style="margin-top:14px;">
+        <div class="info-row" style="display:block;">
+          <label class="lbl" style="display:block;margin-bottom:8px;">Ubah Alamat Pengiriman</label>
+          <textarea class="co-addr-input" id="addressInput" placeholder="Jl. Contoh No. 123, Kota, Provinsi"></textarea>
+          <button class="btn btn-primary" style="width:100%;margin-top:10px;" onclick="saveAddress()">Simpan Alamat</button>
+        </div>
+      </div>
+
+      <button class="logout-btn" onclick="openLogoutModal()">Keluar Akun</button>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="nav-item active" data-nav="home" onclick="goTo('home')">
+      <span class="ic">🏠</span><span>Beranda</span>
+    </div>
+    <div class="nav-item" data-nav="cart" onclick="goTo('cart')">
+      <span class="ic">🛒</span><span>Keranjang</span>
+      <span class="nav-badge" id="navCartBadge" style="display:none;">0</span>
+    </div>
+    <div class="nav-item" data-nav="orders" onclick="goTo('orders')">
+      <span class="ic">📦</span><span>Pesanan</span>
+    </div>
+    <div class="nav-item" data-nav="profile" onclick="goTo('profile')">
+      <span class="ic">👤</span><span>Profil</span>
+    </div>
+  </nav>
+</div>
+
+<!-- ============ ADMIN APP (PENJUAL) ============ -->
+<div id="adminApp">
+  <header class="admin-header">
+    <div class="admin-brand">🗄️ Gadget<span>Store</span> · Admin</div>
+    <button class="admin-exit" onclick="openAdminExitModal()">Keluar</button>
+  </header>
+  <div class="admin-main">
+    <!-- TAB: RINGKASAN -->
+    <div class="admin-tabpanel active" id="adminPanel-ringkasan">
+      <div class="admin-stats">
+        <div class="admin-stat-card"><div class="lbl">Total Produk</div><div class="val" id="adminStatProducts">0</div></div>
+        <div class="admin-stat-card"><div class="lbl">Pesanan Masuk</div><div class="val" id="adminStatOrders">0</div></div>
+        <div class="admin-stat-card"><div class="lbl">Total Pendapatan</div><div class="val" id="adminStatRevenue">Rp 0</div></div>
+        <div class="admin-stat-card pending"><div class="lbl">Menunggu Konfirmasi</div><div class="val" id="adminStatPending">0</div></div>
+      </div>
+      <div class="admin-section-title" style="margin-top:6px;">Ringkasan Cepat</div>
+      <p style="font-size:12.5px;color:var(--muted);line-height:1.7;">Gunakan menu di bawah untuk mengecek pesanan baru, mengelola daftar barang, memantau supplier, menambah produk, atau melihat laporan keuangan toko.</p>
+    </div>
+
+    <!-- TAB: PESANAN (NOTIFIKASI PENJUALAN) -->
+    <div class="admin-tabpanel" id="adminPanel-pesanan">
+      <div class="admin-section-title" style="margin-top:0;">Pesanan Masuk</div>
+      <div id="adminOrdersList"></div>
+    </div>
+
+    <!-- TAB: LIHAT BARANG -->
+    <div class="admin-tabpanel" id="adminPanel-barang">
+      <div class="admin-section-title" style="margin-top:0;">Daftar Barang</div>
+      <div class="admin-prod-grid" id="adminProductGrid"></div>
+    </div>
+
+    <!-- TAB: SUPPLIER -->
+    <div class="admin-tabpanel" id="adminPanel-supplier">
+      <div class="admin-section-title" style="margin-top:0;">Data Supplier</div>
+      <div class="supplier-topbar">
+        <button class="btn-add-supplier" onclick="openAddSupplierModal()">+ Tambah Supplier</button>
+      </div>
+      <div id="supplierList"></div>
+    </div>
+
+    <!-- TAB: TAMBAH BARANG -->
+    <div class="admin-tabpanel" id="adminPanel-tambah">
+      <div class="admin-section-title" style="margin-top:0;">Tambah Barang Baru</div>
+      <div class="co-block">
+        <div class="field">
+          <label>Nama Produk</label>
+          <input type="text" id="addName" placeholder="Contoh: Smartphone Nova X13">
+        </div>
+        <div class="field">
+          <label>Harga (Rp)</label>
+          <input type="number" id="addPrice" placeholder="0">
+        </div>
+        <div class="field">
+          <label>Jenis Produk</label>
+          <select id="addCat">
+            <option value="smartphone">Smartphone</option>
+            <option value="ipad">iPad</option>
+            <option value="macbook">MacBook</option>
+            <option value="aksesoris">Aksesoris</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Deskripsi Produk</label>
+          <textarea id="addDesc" rows="3" placeholder="Deskripsi singkat produk..."></textarea>
+        </div>
+        <div class="field">
+          <label>Stok Awal</label>
+          <input type="number" id="addStock" placeholder="0">
+        </div>
+        <div class="field">
+          <label>Gambar Produk</label>
+          <input type="file" id="addImageFile" accept="image/*" onchange="previewAddImage(event)">
+          <div class="file-preview" id="addImagePreview"></div>
+        </div>
+        <div class="field">
+          <label>Video Produk (opsional)</label>
+          <input type="file" id="addVideoFile" accept="video/*" onchange="previewAddVideo(event)">
+          <div class="file-preview" id="addVideoPreview"></div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;" onclick="submitNewProduct()">+ Tambah Barang</button>
+      </div>
+    </div>
+
+    <!-- TAB: LAPORAN KEUANGAN -->
+    <div class="admin-tabpanel" id="adminPanel-laporan">
+      <div class="admin-section-title" style="margin-top:0;">Laporan Keuangan</div>
+      <div class="report-toggle">
+        <button class="active" data-range="harian" onclick="setReportRange('harian')">Harian</button>
+        <button data-range="bulanan" onclick="setReportRange('bulanan')">Bulanan</button>
+        <button data-range="tahunan" onclick="setReportRange('tahunan')">Tahunan</button>
+      </div>
+      <div class="report-summary">
+        <div class="rs-lbl">Total Pendapatan Keseluruhan</div>
+        <div class="rs-val" id="reportSummaryValue">Rp 0</div>
+      </div>
+      <div id="reportList"></div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav" id="adminBottomNav">
+    <div class="nav-item active" data-tab="ringkasan" onclick="adminGoTo('ringkasan')">
+      <span class="ic">📊</span><span>Ringkasan</span>
+    </div>
+    <div class="nav-item" data-tab="pesanan" onclick="adminGoTo('pesanan')">
+      <span class="ic">🔔</span><span>Pesanan</span>
+      <span class="nav-badge" id="adminPendingBadge" style="display:none;">0</span>
+    </div>
+    <div class="nav-item" data-tab="barang" onclick="adminGoTo('barang')">
+      <span class="ic">🗄️</span><span>Barang</span>
+    </div>
+    <div class="nav-item" data-tab="supplier" onclick="adminGoTo('supplier')">
+      <span class="ic">🚚</span><span>Supplier</span>
+    </div>
+    <div class="nav-item" data-tab="tambah" onclick="adminGoTo('tambah')">
+      <span class="ic">➕</span><span>Tambah</span>
+    </div>
+    <div class="nav-item" data-tab="laporan" onclick="adminGoTo('laporan')">
+      <span class="ic">📈</span><span>Laporan</span>
+    </div>
+  </nav>
+</div>
+
+<!-- ============ LOGOUT MODAL (PEMBELI) ============ -->
+<div class="modal-overlay" id="logoutModal">
+  <div class="modal-box">
+    <h3>Keluar dari Akun?</h3>
+    <p>Kamu akan diarahkan ke halaman pilih peran. Akun kamu tetap tersimpan, jadi lain kali tinggal login lagi.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeLogoutModal()">Batal</button>
+      <button class="btn" style="flex:1;background:var(--danger);color:#fff;" onclick="confirmLogout()">Ya, Keluar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ADMIN EXIT MODAL ============ -->
+<div class="modal-overlay" id="adminExitModal">
+  <div class="modal-box">
+    <h3>Keluar dari Dashboard Admin?</h3>
+    <p>Kamu akan diarahkan kembali ke halaman pilih peran dan perlu login admin lagi. Data produk &amp; pesanan tetap tersimpan.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeAdminExitModal()">Batal</button>
+      <button class="btn" style="flex:1;background:var(--danger);color:#fff;" onclick="confirmAdminExit()">Ya, Keluar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ EDIT PRODUK MODAL (ADMIN) ============ -->
+<div class="modal-overlay" id="editProductModal">
+  <div class="modal-box" style="text-align:left;">
+    <h3 style="text-align:center;">Edit Barang</h3>
+    <div class="field">
+      <label>Nama Produk</label>
+      <input type="text" id="editName">
+    </div>
+    <div class="field">
+      <label>Harga (Rp)</label>
+      <input type="number" id="editPrice">
+    </div>
+    <div class="field">
+      <label>Stok</label>
+      <input type="number" id="editStock">
+    </div>
+    <div class="field">
+      <label>Deskripsi</label>
+      <textarea id="editDesc" rows="3"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeEditProductModal()">Batal</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="saveEditProduct()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SUPPLIER MODAL (TAMBAH / EDIT) ============ -->
+<div class="modal-overlay" id="supplierModal">
+  <div class="modal-box" style="text-align:left;">
+    <h3 style="text-align:center;" id="supplierModalTitle">Tambah Supplier</h3>
+    <div class="field">
+      <label>Nama Supplier</label>
+      <input type="text" id="supName" placeholder="Contoh: CV Sumber Elektronik">
+      <div class="err" id="errSupName">Nama supplier wajib diisi</div>
+    </div>
+    <div class="field">
+      <label>Nama Kontak (PIC)</label>
+      <input type="text" id="supContact" placeholder="Contoh: Budi Santoso">
+    </div>
+    <div class="field">
+      <label>No. Telepon</label>
+      <input type="tel" id="supPhone" placeholder="0812xxxxxxx">
+      <div class="err" id="errSupPhone">Masukkan nomor telepon yang valid</div>
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="supEmail" placeholder="supplier@email.com">
+    </div>
+    <div class="field">
+      <label>Kategori Produk</label>
+      <select id="supCat">
+        <option value="smartphone">Smartphone</option>
+        <option value="ipad">iPad</option>
+        <option value="macbook">MacBook</option>
+        <option value="aksesoris">Aksesoris</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Alamat</label>
+      <textarea id="supAddress" rows="2" placeholder="Alamat gudang / kantor supplier"></textarea>
+    </div>
+    <div class="field">
+      <label>Status Kerja Sama</label>
+      <select id="supStatus">
+        <option value="Aktif">Aktif</option>
+        <option value="Nonaktif">Nonaktif</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeSupplierModal()">Batal</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="saveSupplier()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HAPUS SUPPLIER MODAL ============ -->
+<div class="modal-overlay" id="deleteSupplierModal">
+  <div class="modal-box">
+    <h3>Hapus Supplier Ini?</h3>
+    <p id="deleteSupplierText">Data supplier akan dihapus permanen dari daftar.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeDeleteSupplierModal()">Batal</button>
+      <button class="btn" style="flex:1;background:var(--danger);color:#fff;" onclick="confirmDeleteSupplier()">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toastMsg"></span></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
