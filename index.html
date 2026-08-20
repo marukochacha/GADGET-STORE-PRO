@@ -500,6 +500,23 @@ background:var(--surface);border:1.5px solid var(--line);color:var(--secondary);
 .report-summary .rs-lbl{font-size:11px;opacity:.85;text-transform:uppercase;letter-spacing:1px;}
 .report-summary .rs-val{font-size:24px;font-weight:700;margin-top:6px;font-family:'Space Grotesk',sans-serif;}
 
+/* ----- supplier ----- */
+.supplier-topbar{display:flex;justify-content:flex-end;margin-bottom:14px;}
+.btn-add-supplier{background:var(--primary);color:#fff;padding:10px 16px;border-radius:11px;font-size:12.5px;font-weight:700;display:inline-flex;align-items:center;gap:6px;}
+.supplier-card{background:var(--surface);border-radius:16px;padding:15px;margin-bottom:12px;box-shadow:0 6px 16px -10px rgba(217,130,157,.3);}
+.supplier-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;}
+.supplier-name{font-size:14px;font-weight:700;color:var(--primary);}
+.supplier-cat{font-size:10.5px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+.supplier-status{font-size:10px;font-weight:700;padding:4px 11px;border-radius:20px;white-space:nowrap;cursor:pointer;}
+.supplier-status.aktif{background:#e3f5ea;color:var(--green);}
+.supplier-status.nonaktif{background:#f3e6e6;color:var(--danger);}
+.supplier-meta{font-size:12px;color:#5c464b;line-height:1.9;margin-bottom:10px;}
+.supplier-meta b{color:var(--ink);font-weight:600;}
+.supplier-actions{display:flex;gap:8px;}
+.supplier-actions button{flex:1;padding:9px 4px;border-radius:9px;font-size:11px;font-weight:700;}
+.btn-edit-supplier{background:var(--bg);color:var(--primary);border:1.5px solid var(--primary);}
+.btn-del-supplier{background:#fdeceb;color:var(--danger);}
+
 /* ================= MODAL & TOAST ================= */
 .modal-overlay{
 position:fixed;inset:0;background:rgba(63,43,48,.55);z-index:800;
@@ -791,7 +808,7 @@ display:flex;align-items:center;gap:8px;box-shadow:0 10px 26px rgba(0,0,0,.2);
         <div class="admin-stat-card pending"><div class="lbl">Menunggu Konfirmasi</div><div class="val" id="adminStatPending">0</div></div>
       </div>
       <div class="admin-section-title" style="margin-top:6px;">Ringkasan Cepat</div>
-      <p style="font-size:12.5px;color:var(--muted);line-height:1.7;">Gunakan menu di bawah untuk mengecek pesanan baru, mengelola daftar barang, menambah produk, atau melihat laporan keuangan toko.</p>
+      <p style="font-size:12.5px;color:var(--muted);line-height:1.7;">Gunakan menu di bawah untuk mengecek pesanan baru, mengelola daftar barang, memantau supplier, menambah produk, atau melihat laporan keuangan toko.</p>
     </div>
 
     <!-- TAB: PESANAN (NOTIFIKASI PENJUALAN) -->
@@ -804,6 +821,15 @@ display:flex;align-items:center;gap:8px;box-shadow:0 10px 26px rgba(0,0,0,.2);
     <div class="admin-tabpanel" id="adminPanel-barang">
       <div class="admin-section-title" style="margin-top:0;">Daftar Barang</div>
       <div class="admin-prod-grid" id="adminProductGrid"></div>
+    </div>
+
+    <!-- TAB: SUPPLIER -->
+    <div class="admin-tabpanel" id="adminPanel-supplier">
+      <div class="admin-section-title" style="margin-top:0;">Data Supplier</div>
+      <div class="supplier-topbar">
+        <button class="btn-add-supplier" onclick="openAddSupplierModal()">+ Tambah Supplier</button>
+      </div>
+      <div id="supplierList"></div>
     </div>
 
     <!-- TAB: TAMBAH BARANG -->
@@ -876,6 +902,9 @@ display:flex;align-items:center;gap:8px;box-shadow:0 10px 26px rgba(0,0,0,.2);
     <div class="nav-item" data-tab="barang" onclick="adminGoTo('barang')">
       <span class="ic">🗄️</span><span>Barang</span>
     </div>
+    <div class="nav-item" data-tab="supplier" onclick="adminGoTo('supplier')">
+      <span class="ic">🚚</span><span>Supplier</span>
+    </div>
     <div class="nav-item" data-tab="tambah" onclick="adminGoTo('tambah')">
       <span class="ic">➕</span><span>Tambah</span>
     </div>
@@ -932,6 +961,67 @@ display:flex;align-items:center;gap:8px;box-shadow:0 10px 26px rgba(0,0,0,.2);
     <div class="modal-actions">
       <button class="btn btn-ghost" style="flex:1;" onclick="closeEditProductModal()">Batal</button>
       <button class="btn btn-primary" style="flex:1;" onclick="saveEditProduct()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SUPPLIER MODAL (TAMBAH / EDIT) ============ -->
+<div class="modal-overlay" id="supplierModal">
+  <div class="modal-box" style="text-align:left;">
+    <h3 style="text-align:center;" id="supplierModalTitle">Tambah Supplier</h3>
+    <div class="field">
+      <label>Nama Supplier</label>
+      <input type="text" id="supName" placeholder="Contoh: CV Sumber Elektronik">
+      <div class="err" id="errSupName">Nama supplier wajib diisi</div>
+    </div>
+    <div class="field">
+      <label>Nama Kontak (PIC)</label>
+      <input type="text" id="supContact" placeholder="Contoh: Budi Santoso">
+    </div>
+    <div class="field">
+      <label>No. Telepon</label>
+      <input type="tel" id="supPhone" placeholder="0812xxxxxxx">
+      <div class="err" id="errSupPhone">Masukkan nomor telepon yang valid</div>
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="supEmail" placeholder="supplier@email.com">
+    </div>
+    <div class="field">
+      <label>Kategori Produk</label>
+      <select id="supCat">
+        <option value="smartphone">Smartphone</option>
+        <option value="ipad">iPad</option>
+        <option value="macbook">MacBook</option>
+        <option value="aksesoris">Aksesoris</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Alamat</label>
+      <textarea id="supAddress" rows="2" placeholder="Alamat gudang / kantor supplier"></textarea>
+    </div>
+    <div class="field">
+      <label>Status Kerja Sama</label>
+      <select id="supStatus">
+        <option value="Aktif">Aktif</option>
+        <option value="Nonaktif">Nonaktif</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeSupplierModal()">Batal</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="saveSupplier()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HAPUS SUPPLIER MODAL ============ -->
+<div class="modal-overlay" id="deleteSupplierModal">
+  <div class="modal-box">
+    <h3>Hapus Supplier Ini?</h3>
+    <p id="deleteSupplierText">Data supplier akan dihapus permanen dari daftar.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeDeleteSupplierModal()">Batal</button>
+      <button class="btn" style="flex:1;background:var(--danger);color:#fff;" onclick="confirmDeleteSupplier()">Ya, Hapus</button>
     </div>
   </div>
 </div>
@@ -994,6 +1084,16 @@ const sampleReviews = [
   {name:"Sinta Amelia",avatar:"https://i.pravatar.cc/60?img=45",rating:4,text:"Barangnya bagus, cuma dus agak penyok dikit pas nyampe."},
   {name:"Fajar Nugroho",avatar:"https://i.pravatar.cc/60?img=22",rating:5,text:"Sudah kedua kalinya beli di sini, garansi resmi dan responsif."},
 ];
+
+/* ======================= DATA SUPPLIER ======================= */
+let suppliers = [
+  {id:1, name:"CV Sumber Elektronik", contact:"Budi Santoso", phone:"081234567890", email:"budi@sumberelektronik.co.id", cat:"smartphone", address:"Jl. Pasar Baru No. 12, Jakarta", status:"Aktif"},
+  {id:2, name:"PT Aksesoris Nusantara", contact:"Rina Wulandari", phone:"081298765432", email:"rina@aksesorisnusantara.id", cat:"aksesoris", address:"Jl. Kembang Raya No. 5, Bandung", status:"Aktif"},
+  {id:3, name:"UD Gadget Sejahtera", contact:"Andi Firmansyah", phone:"081311223344", email:"andi@gadgetsejahtera.com", cat:"ipad", address:"Jl. Diponegoro No. 88, Surabaya", status:"Nonaktif"},
+];
+let nextSupplierId = 4;
+let editingSupplierId = null;
+let deletingSupplierId = null;
 
 /* ======================= AKUN (PERSIST DI localStorage) =======================
    registeredUsers dan sesi login pembeli yang aktif disimpan ke localStorage
@@ -1733,6 +1833,8 @@ function adminGoTo(tab){
   if(tab === 'ringkasan') renderAdmin();
   if(tab === 'pesanan') renderAdminOrders();
   if(tab === 'barang') renderAdminProducts();
+  if(tab === 'supplier') renderSupplierList();
+  if(tab === 'tambah') { /* form statis, tidak perlu render ulang */ }
   if(tab === 'laporan') renderReport();
 }
 
@@ -1849,6 +1951,136 @@ function saveEditProduct(){
   renderAdminProducts();
   renderAdmin();
   showToast(`${p.name} berhasil diperbarui`);
+}
+
+/* ----- TAB: SUPPLIER ----- */
+const CAT_LABEL = {smartphone:"Smartphone", ipad:"iPad", macbook:"MacBook", aksesoris:"Aksesoris"};
+
+function renderSupplierList(){
+  const el = document.getElementById('supplierList');
+  if(!el) return;
+  if(suppliers.length === 0){
+    el.innerHTML = `<div class="empty-state"><div class="emoji">🚚</div>Belum ada supplier terdaftar.<br>Tambahkan supplier pertamamu.</div>`;
+    return;
+  }
+  el.innerHTML = suppliers.map(s => `
+    <div class="supplier-card">
+      <div class="supplier-top">
+        <div>
+          <div class="supplier-name">${s.name}</div>
+          <div class="supplier-cat">${CAT_LABEL[s.cat] || s.cat}</div>
+        </div>
+        <span class="supplier-status ${s.status==='Aktif' ? 'aktif' : 'nonaktif'}" onclick="toggleSupplierStatus(${s.id})" title="Klik untuk ubah status">${s.status}</span>
+      </div>
+      <div class="supplier-meta">
+        <b>Kontak:</b> ${s.contact || '-'}<br>
+        <b>Telepon:</b> ${s.phone || '-'}<br>
+        <b>Email:</b> ${s.email || '-'}<br>
+        <b>Alamat:</b> ${s.address || '-'}
+      </div>
+      <div class="supplier-actions">
+        <button class="btn-edit-supplier" onclick="openEditSupplierModal(${s.id})">✎ Edit</button>
+        <button class="btn-del-supplier" onclick="openDeleteSupplierModal(${s.id})">🗑 Hapus</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openAddSupplierModal(){
+  editingSupplierId = null;
+  document.getElementById('supplierModalTitle').textContent = 'Tambah Supplier';
+  document.getElementById('supName').value = '';
+  document.getElementById('supContact').value = '';
+  document.getElementById('supPhone').value = '';
+  document.getElementById('supEmail').value = '';
+  document.getElementById('supCat').value = 'smartphone';
+  document.getElementById('supAddress').value = '';
+  document.getElementById('supStatus').value = 'Aktif';
+  document.getElementById('errSupName').style.display = 'none';
+  document.getElementById('errSupPhone').style.display = 'none';
+  document.getElementById('supplierModal').classList.add('open');
+}
+
+function openEditSupplierModal(id){
+  const s = suppliers.find(s => s.id === id);
+  if(!s) return;
+  editingSupplierId = id;
+  document.getElementById('supplierModalTitle').textContent = 'Edit Supplier';
+  document.getElementById('supName').value = s.name;
+  document.getElementById('supContact').value = s.contact;
+  document.getElementById('supPhone').value = s.phone;
+  document.getElementById('supEmail').value = s.email;
+  document.getElementById('supCat').value = s.cat;
+  document.getElementById('supAddress').value = s.address;
+  document.getElementById('supStatus').value = s.status;
+  document.getElementById('errSupName').style.display = 'none';
+  document.getElementById('errSupPhone').style.display = 'none';
+  document.getElementById('supplierModal').classList.add('open');
+}
+
+function closeSupplierModal(){
+  document.getElementById('supplierModal').classList.remove('open');
+  editingSupplierId = null;
+}
+
+function saveSupplier(){
+  const name = document.getElementById('supName').value.trim();
+  const contact = document.getElementById('supContact').value.trim();
+  const phone = document.getElementById('supPhone').value.trim();
+  const email = document.getElementById('supEmail').value.trim();
+  const cat = document.getElementById('supCat').value;
+  const address = document.getElementById('supAddress').value.trim();
+  const status = document.getElementById('supStatus').value;
+
+  let ok = true;
+  if(!name){ document.getElementById('errSupName').style.display = 'block'; ok = false; }
+  else document.getElementById('errSupName').style.display = 'none';
+
+  const phoneValid = /^[0-9]{9,14}$/.test(phone);
+  if(!phoneValid){ document.getElementById('errSupPhone').style.display = 'block'; ok = false; }
+  else document.getElementById('errSupPhone').style.display = 'none';
+
+  if(!ok) return;
+
+  if(editingSupplierId){
+    const s = suppliers.find(s => s.id === editingSupplierId);
+    s.name = name; s.contact = contact; s.phone = phone; s.email = email;
+    s.cat = cat; s.address = address; s.status = status;
+    showToast(`${name} berhasil diperbarui`);
+  } else {
+    suppliers.push({id:nextSupplierId++, name, contact, phone, email, cat, address, status});
+    showToast(`${name} berhasil ditambahkan sebagai supplier`);
+  }
+
+  closeSupplierModal();
+  renderSupplierList();
+}
+
+function toggleSupplierStatus(id){
+  const s = suppliers.find(s => s.id === id);
+  if(!s) return;
+  s.status = s.status === 'Aktif' ? 'Nonaktif' : 'Aktif';
+  renderSupplierList();
+  showToast(`Status ${s.name} diubah ke "${s.status}"`);
+}
+
+function openDeleteSupplierModal(id){
+  const s = suppliers.find(s => s.id === id);
+  if(!s) return;
+  deletingSupplierId = id;
+  document.getElementById('deleteSupplierText').textContent = `"${s.name}" akan dihapus permanen dari daftar supplier.`;
+  document.getElementById('deleteSupplierModal').classList.add('open');
+}
+function closeDeleteSupplierModal(){
+  document.getElementById('deleteSupplierModal').classList.remove('open');
+  deletingSupplierId = null;
+}
+function confirmDeleteSupplier(){
+  const s = suppliers.find(s => s.id === deletingSupplierId);
+  suppliers = suppliers.filter(s => s.id !== deletingSupplierId);
+  closeDeleteSupplierModal();
+  renderSupplierList();
+  if(s) showToast(`${s.name} dihapus dari daftar supplier`);
 }
 
 /* ----- TAB: TAMBAH BARANG ----- */
